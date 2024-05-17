@@ -1,5 +1,4 @@
 # Django Course
 
-### 온라인 수업
+## branch : sochun98
 
-Django 연습
