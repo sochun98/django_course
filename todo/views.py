@@ -10,7 +10,7 @@ def todo_list(request):
     if search:
         todos = todos.filter(name__icontains=search)
         
-    return render(request, "todo.html", {"todos": todos})
+    return render(request, "todo/todo.html", {"todos": todos})
 
 def todo_detail(request, pk):
     # try:
@@ -20,10 +20,10 @@ def todo_detail(request, pk):
     todo = Todo.objects.filter(id=pk).first()
     if todo == None:
         return HttpResponse("없는 페이지입니다.", status=404)
-    return render(request, "todo.html", {"todo": todo})
+    return render(request, "todo/todo.html", {"todo": todo})
 
 def todo_detail_name(request, name):
     todo = Todo.objects.filter(name__icontains=name)
     first = todo.first()
     last = todo.last()
-    return render(request, "todo.html", {"todo": todo, "first": first, "last": last})
+    return render(request, "todo/todo.html", {"todo": todo, "first": first, "last": last})

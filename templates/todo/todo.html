@@ -1,0 +1,82 @@
+<h1>Todo List</h1>
+<h2>django template</h2>
+
+<!-- <h3>{{ todos }}</h3>
+<br>
+{% for todo in todos %}
+    {{ todo }}
+    <br>
+    {{ todo.name}}
+    <br>
+    {{ todo.description }}
+    <br>
+    {{ todo.complete }}
+    <br>
+    {{ todo.created_at }}
+    <br><br>
+{% endfor %}
+
+<br>
+{{ todo }}
+<br>
+{{ first }}
+<br>
+{{ last }} -->
+
+<!-- <h3>To Do List</h3>  <ul>  {% for todo in todos %}
+    <li>
+      <strong>{{ todo.name }}</strong><br>
+
+      {% if todo.description %}
+        <p>{{ todo.description }}</p>
+      {% endif %}
+
+      <span class="completion-status">
+        {% if todo.complete %}
+          <i class="fas fa-check"></i>  {% else %}
+          <i class="fas fa-circle"></i>  {% endif %}
+      </span>
+
+      <span class="created-at">Created: {{ todo.created_at|date:"F d, Y" }}</span>
+    </li>
+  {% endfor %}
+</ul>
+
+<br>
+{{ todo }}  <br>
+{{ first }}  <br>
+{{ last }} -->
+
+<table>
+    <thead>
+      <tr>
+        <th>이름</th>
+        <th>설명</th>
+        <th>완료 여부</th>
+        <th>생성 날짜</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in todos %}
+        <tr>
+          <td>{{ todo.name }}</td>
+          <td>
+            {% if todo.description %}
+                {{ todo.description }}
+            {% else %}
+                No description
+            {% endif %}
+          </td>
+          <td>
+            {{ todo.complete }}
+            <!-- {% if todo.complete %}
+              <i class="fas fa-check"></i>
+            {% else %}
+              <i class="fas fa-circle"></i>
+            {% endif %} -->
+          </td>
+          <td>{{ todo.created_at|date:"F d, Y" }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
