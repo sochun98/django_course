@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     path("generics/", apis.TodoGenericsListCreateAPI.as_view()),
+    path("generics/<int:pk>/", apis.TodoGenericsRetrieveUpdateDeleteAPI.as_view()),
     path("generics/create/", apis.TodoGenericsCreateAPI.as_view()),
     path("generics/list/", apis.TodoGenericsListAPI.as_view()),
     path("generics/retrieve/<int:pk>/", apis.TodoGenericsRetrieveAPI.as_view()),
