@@ -20,8 +20,9 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.hello_world),
-    path("todo/", include("todo.urls")),
+    path("", views.hello_world),    # 127.0.0.1:8000/
+    path("api/todo/", include("todo.api_urls")),    # 127.0.0.1:8000/api/todo/
+    path("todo/", include("todo.urls")),    # 127.0.0.1:8000/todo/
     path("random/template/", views.RandomNumberTemplateView.as_view()),
     path("random/view/", views.RandomNumberView.as_view()),
 ]
