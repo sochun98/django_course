@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h1>Todo Create</h1>
+    
+            <div>
+                <label for="name">이름:</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+    
+            <div>
+                <label for="star">별점:</label>
+                <input type="number" class="form-control" id="star" name="star" min="0" max="5" required>
+            </div>
+    
+            <div>
+                <label for="description">설명:</label>
+                <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+            </div>
+    
+            <div>
+                <label for="complete">완료 여부:</label>
+                <input type="checkbox" class="form-control" id="complete" name="complete">
+            </div>
+    
+            <div>
+                <label for="exp">경험치:</label>
+                <input type="number" class="form-control" id="exp" name="exp" min="0" required>
+            </div>
+
+            <div>
+                <label for="completed_at">완료 날짜:</label>
+                <input type="date" class="form-control" id="completed_at" name="completed_at">
+            </div>
+    
+            <button type="submit" id="todoCreate" class="btn btn-primary">Todo 만들기</button>
+
+    </div>
+
+
+    <script>
+        // 버튼이 클릭된다면
+        document.querySelector("#todoCreate").addEventListener("click", function() {
+            axiosInstance.post("/api/todo/create/", {
+                name : "test Todo in axios"
+            })
+            .then(function(response) {
+                console.log(response)
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
+        })
+    </script>
+
+{% endblock %}

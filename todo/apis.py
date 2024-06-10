@@ -16,7 +16,7 @@ class TodoCreateAPI(APIView):
 class TodoListAPI(APIView):
     
     def get(self, reuqest):
-        todos = Todo.objects.all()
+        todos = Todo.objects.all()  # QuerySet = Object list
         serializer = TodoSerializer(todos, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -62,14 +62,17 @@ class TodoDeleteAPI(APIView):
         except Todo.DoexNotExist:
             return Response({"error": "해당하는 todo가 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         todo.delete()
-        return Response(data={"data": "OK"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(data={"data": "Deleted"}, status=status.HTTP_204_NO_CONTENT)
+
 
 class TodoGenericsCreateAPI(generics.CreateAPIView):
     serializer_class = TodoSerializer
     
+    
 class TodoGenericsListAPI(generics.ListAPIView):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+
 
 class TodoGenericsListCreateAPI(generics.ListCreateAPIView):
     queryset = Todo.objects.all()

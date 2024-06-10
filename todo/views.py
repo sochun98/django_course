@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Todo
+from django.views import View
+
 
 def todo_list(request):
     # return HttpResponse("Todo list")
-    todos = Todo.objects.all()
+    todos = Todo.objects.all()  # Django Query
     search = request.GET.get("search")
     
     if search:
@@ -23,7 +25,14 @@ def todo_detail(request, pk):
     return render(request, "todo/todo.html", {"todo": todo})
 
 def todo_detail_name(request, name):
-    todo = Todo.objects.filter(name__icontains=name)
+    todo = Todo.objects.filter(name__icontains=name)    # queryset
     first = todo.first()
     last = todo.last()
     return render(request, "todo/todo.html", {"todo": todo, "first": first, "last": last})
+
+
+class TodoCreateView(View):
+    
+    def get(self, request):
+        return render(request, "todo/create.html")
+    
