@@ -3,10 +3,10 @@
 
 {% block content %}
 
-    <h1>Todo Create</h1>
+    <h1>Todo Update</h1>
 
     <div class="container">
-        <h2>Create a New Todo</h2>
+        <h2>Update Your Todo</h2>
     
             <div>
                 <label for="name">이름:</label>
@@ -27,9 +27,9 @@
                 <label for="exp">경험치:</label>
                 <input type="number" class="form-control" id="exp" name="exp" min="0" required>
             </div>
-
+            
             <div class="btnlist">
-                <button type="submit" id="todoCreate" class="todoCreate">Todo 만들기</button>
+                <button type="submit" id="todoUpdate" class="todoUpdate">Todo Update</button>
                 <button class="todoList" onclick="toList()">목록</button>
             </div>
 
@@ -37,36 +37,52 @@
 
 
     <script>
+
+        // 페이지 로드시 값을 넣어준다
+
+        $(document).ready(function(){
+            let pk = window.location.href.split('/').filter(Boolean).pop()
+            axiosInstance.get(`api/todo/${pk}/`)
+            .then(
+                function(response){
+                    todo = response.data;
+                    $("#name").val(todo.name)
+                    $("#description").val(todo.description)
+                    $("#complete").prop("checked", todo.complete)
+                    $("#exp").val(todo.exp)
+                }
+            )
+        })
+
+
         // 버튼이 클릭된다면
         
-        $("#todoCreate").on("click", function(){
-            let exp = $("#exp").val();
-            if (exp === ""){
-                exp = 0;
-            }
-            axiosInstance.post("/api/todo/", {
+        $("#todoUpdate").on("click", function(){
+            let pk = window.location.href.split('/').filter(Boolean).pop();
+            // alert($("#complete").val());
+            axiosInstance.patch(`/api/todo/${pk}/`, {
                 name : $("#name").val(),
                 description: $("#description").val(),
                 complete: $("#complete").prop("checked"),
-                exp: exp,
+                exp: $("#exp").val(),
 
             })
             .then(function(response) {
-                window.location.href = "/todo/list";
+                window.location.href = `/todo/${pk}/`;
             })
             .catch(function(error) {
-                console.log(error)
-                alert("Todo 생성에 실패했습니다.");
+                console.log(error);
+                alert("Todo 수정에 실패했습니다.");
             })
 
         })
-
+        
         // 목록이 클릭된다면
 
         function toList(){
             window.location.href = `/todo/list/`;
         }
-        
+
     </script>
 
 {% endblock %}

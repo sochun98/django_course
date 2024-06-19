@@ -25,4 +25,8 @@ urlpatterns = [
     path("todo/", include("todo.urls")),    # 127.0.0.1:8000/todo/
     path("random/template/", views.RandomNumberTemplateView.as_view()),
     path("random/view/", views.RandomNumberView.as_view()),
+    # 127.0.0.1:8000/api-auth/login/
+    # 127.0.0.1:8000/api-auth/logout/ -> session flush
+    path("api-auth/", include('rest_framework.urls')),
+    path('api-auth/logout/', views.LogoutView.as_view(), name='logout'),
 ]

@@ -8,8 +8,8 @@ router.register("", apis.TodoViewSet)
 # 127.0.0.1:8000/todo/
 urlpatterns = [
     # APIS
-    # 127.0.0.1:8000/todo/
-    # 127.0.0.1:8000/todo/<int:pk>/
+    # 127.0.0.1:8000/api/todo/
+    # 127.0.0.1:8000/api/todo/<int:pk>/
     path("", include(router.urls)),
     path("generics/", apis.TodoGenericsListCreateAPI.as_view()),
     path("generics/<int:pk>/", apis.TodoGenericsRetrieveUpdateDeleteAPI.as_view()),

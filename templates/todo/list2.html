@@ -1,0 +1,111 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <h1> Todo List </h1>
+    <div class="btnlist">
+        <button class="todoCreate" onclick="window.location.href='/todo/create/'">Todo 등록하기</button>
+    </div>
+</div>
+
+<div class="pagination">
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        loadTodoList(1);
+    });
+
+    function loadTodoList(page){
+        $(".container").empty();
+        axiosInstance.get(`/api/todo/?page=${page}`)
+        .then(function(response){
+            for (var i = 0; i < response.data.data.length; i++){
+                var todo = response.data.data[i];
+                var todoElement = `
+                        <div class="todo-item" onclick="detailView(${todo.id})">
+                            <p><strong>Name:</strong> ${todo.name} </p>
+                            <p><strong>Description:</strong> ${todo.description} </p>
+                            <p><strong>Complete:</strong> ${ todo.complete ? "완료" : "진행중" } </p>
+                            <p><strong>Completed At:</strong> ${ datetimeToString(todo.completed_at) } </p>
+                            <p><strong>Experience:</strong> ${todo.exp} </p>
+                        </div>
+                `;
+                var todoComplete = `
+                        <div class="btnlist">
+                            <button class="todoUpdate" onclick="toComplete(${todo.id}, ${page})">완료</button>
+                        </div>
+                `
+                if (todo.complete === false){
+                    todoElement += todoComplete;
+                }
+
+                $(".container").append(todoElement)
+            }
+            // 페이지 링크 생성
+            var pagination = response.data;
+            var pageLinks = "";
+
+            if (pagination.page_count > 1) {
+                var currentPage = pagination.current_page;
+                var totalPages = pagination.page_count;
+                var maxDisplayedPages = 10;
+                //var rightWidth = maxDisplayedPages / 2;
+                var rightWidth = Math.round(maxDisplayedPages / 2);
+                var leftWidth = rightWidth - 1;
+                if (rightWidth - maxDisplayedPages / 2 > 0) {
+                    rightWidth = rightWidth - 1;
+                } 
+
+                var startPage = Math.max(1, currentPage - leftWidth);
+                var endPage = Math.min(totalPages, currentPage + rightWidth);
+                
+                if (currentPage - startPage < leftWidth) {
+                    endPage = Math.min(endPage + (leftWidth - (currentPage - startPage)), totalPages);
+                }
+                if (endPage - currentPage < rightWidth) {
+                    startPage = Math.max(startPage - (rightWidth - (endPage - currentPage)), 1);
+                }
+
+                for (var i = startPage; i < currentPage; i++) {
+                    pageLinks += `<a href="#" onclick="loadTodoList(${i})"> ${i} </a>`;
+                }
+
+                pageLinks += `<a href="#" onclick="loadTodoList(${currentPage})" style="color: red;"> ${currentPage} </a>`;
+                
+                for (var i = currentPage + 1; i <= endPage; i++) {
+                    pageLinks += `<a href="#" onclick="loadTodoList(${i})"> ${i} </a>`;
+                }
+                $(".pagination").html(pageLinks);
+            }
+
+        })
+        .catch(function(error){
+            console.log(error)
+        })
+
+    }
+
+    function detailView(id){
+        window.location.href = `/todo/${id}/`
+    }
+
+    function toComplete(pk, page) {
+        axiosInstance.patch(`/api/todo/${pk}/`, {
+            complete: true,
+        })
+        .then(function(response){
+            // 페이지를 새로고침합니다.
+            //window.location.reload();
+
+            loadTodoList(page);
+
+        })
+    }
+
+</script>
+
+{% endblock %}
