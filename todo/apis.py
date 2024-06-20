@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import TodoSerializer
 from .models import Todo
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 class TodoCreateAPI(APIView):
     
@@ -102,5 +105,18 @@ class TodoGenericsRetrieveUpdateDeleteAPI(generics.RetrieveUpdateDestroyAPIView)
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all().order_by("-created_at")
     serializer_class = TodoSerializer
+    authentication_classed = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    
+    # 본인의 todo만 조회
+    def get_queryset(self):
+        queryset = self.queryset
+        user = self.request.user
+        return queryset.filter(user=user)
 
-
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

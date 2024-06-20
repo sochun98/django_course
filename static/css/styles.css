@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-.container {
+.contain {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -11,6 +11,14 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
 label {
     display: block;
@@ -94,6 +102,15 @@ h1 {
 
 .btnlist .todoList:hover {
     background-color: #1d30db; /* 호버 시 약간 더 어두운 파랑색 */
+}
+
+/* 로그아웃 버튼 스타일 */
+.btnlist .logOut {
+    background-color: #45bb54; /* 파랑색 배경 */
+}
+
+.btnlist .logOut:hover {
+    background-color: #1dbb40; /* 호버 시 약간 더 어두운 파랑색 */
 }
 
 

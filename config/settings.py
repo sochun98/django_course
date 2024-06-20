@@ -148,5 +148,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
+LOGIN_URL = "/api-auth/login/"
 LOGIN_REDIRECT_URL = "/todo/list/"
 LOGOUT_REDIRECT_URL = "/api-auth/login/"
+# LOGOUT_REDIRECT_URL = "/todo/list/"

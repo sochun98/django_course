@@ -1,8 +1,11 @@
 <div class="header">
     <h1><a href="/todo/list/">DjangoCourse</a></h1>
-    <div class="user-actions">
+    <div class="btnlist">
         {% if user.is_authenticated %}
-            <a href="/api-auth/logout/">로그아웃</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="logOut" type="submit">로그아웃</button>
+            </form>
         {% else %}
             <a href="/api-auth/login/">로그인</a>
         {% endif %}
