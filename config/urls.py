@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.hello_world),    # 127.0.0.1:8000/
+    path("api/blog/", include("blog.api_urls")),
     path("api/product/", include("product.api_urls")), # 127.0.0.1:8000/api/product/
     path("api/brand/", include("brand.api_urls")), # 127.0.0.1:8000/api/brand/
     path("api/todo/", include("todo.api_urls")),    # 127.0.0.1:8000/api/todo/
