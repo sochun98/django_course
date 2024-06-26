@@ -40,6 +40,7 @@ CUSTOM_APPS = [
     'product',
     'category',
     'blog',
+    'users',
 ]
 
 THIRD_PARTY_APPS = [
@@ -147,12 +148,18 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PAGINATION_CLASS": "api.pagination.CustomPageNumberPagination",
+    "DEFAULT_AUTHENTICATION_CLASSES":[
+        # "rest_framework.authentication.SessionAuthentication",
+        "api.session_authentication.NoCsrfSessionAuthentication",
+    ],
     # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "api.pagination.CustomPageNumberPagination",
     "PAGE_SIZE": 10,
 }
 
 LOGIN_URL = "/api-auth/login/"
 LOGIN_REDIRECT_URL = "/todo/list/"
 LOGOUT_REDIRECT_URL = "/api-auth/login/"
-# LOGOUT_REDIRECT_URL = "/todo/list/"
+
+AUTH_USER_MODEL = "users.User"
+
